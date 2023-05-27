@@ -20,7 +20,9 @@ except Exception as e:
 while True:                                                                                                             
     message = ''                                                                                                        
     for _ in range(randint(2, 7)):                                                                                      
-        message += WORDS[randint(0, len(WORDS)-1)] + ' '                                                                
-    print(f">>> '{message}'")                                                                                           
-    p.send(TOPIC, bytes(message, encoding="utf8"))                                                                      
+        message += WORDS[randint(0, len(WORDS)-1)] + ' '
+    print(f">>> '{message}'")
+    message = message.encode("utf-8")
+    # p.send(TOPIC, value=bytes(message, encoding="utf8"))
+    p.send(TOPIC, value=message)
     sleep(randint(1,4))

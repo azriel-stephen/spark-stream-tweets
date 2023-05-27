@@ -2,10 +2,8 @@
 
 from kafka import KafkaProducer
 from datetime import datetime
-# import secret_config as conf ## where I put my Twitter API keys
 from config import twitter
-# import tweepy
-from tweepy.streaming import Stream
+import tweepy
 import sys
 import re
 
@@ -14,7 +12,7 @@ TWEET_TOPICS = ['pizza']
 KAFKA_BROKER = 'localhost:9092'
 KAFKA_TOPIC = 'tweets'
 
-class Streamer(Stream):
+class Streamer(tweepy.StreamListener):
 
     def on_error(self, status_code):
         if status_code == 402:
@@ -34,11 +32,11 @@ class Streamer(Stream):
         print(f'[{d.hour}:{d.minute}.{d.second}] sending tweet')
 
 # put your API keys here
-consumer_key = twitter[consumer_key]
-consumer_secret_key = twitter[consumer_secret_key]
+consumer_key = twitter["consumer_key"]
+consumer_secret_key = twitter["consumer_secret_key"]
 
-access_token = twitter[access_token]
-access_token_secret = twitter[access_token_secret]
+access_token = twitter["access_token"]
+access_token_secret = twitter["access_token_secret"]
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
 auth.set_access_token(access_token, access_token_secret)
